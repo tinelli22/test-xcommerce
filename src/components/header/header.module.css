@@ -1,0 +1,42 @@
+.main {
+    background: #17223E;
+    height: 23.25rem;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.375rem 0 2.688rem;
+}
+
+.logo {
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.plus {
+    position: relative;
+    left: -7px;
+    color: #9765D8;
+}
+
+.line {
+    display: block;
+    height: 1px;
+    background: #ffffff1a;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+}
+
+.userInfo i {
+    font-size: 20px;
+}
