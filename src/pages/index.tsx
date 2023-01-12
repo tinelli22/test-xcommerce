@@ -1,8 +1,13 @@
 import Head from 'next/head'
 import Header from '../components/header/header'
+import Table from '../components/table/table'
 
 
 export default function Home() {
+  const onClick = () => {
+
+  }
+
   return (
     <>
       <Head>
@@ -13,7 +18,13 @@ export default function Home() {
       </Head>
       <Header />
       <main>
-
+        <Table title='Mais vendidos' layout='columns' onPrev={onClick} onNext={onClick}>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+        </Table>
       </main>
     </>
   )

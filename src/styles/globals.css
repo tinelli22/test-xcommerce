@@ -16,6 +16,7 @@ body {
 button {
   cursor: pointer;
   border-radius: 8px;
+  border: none;
 }
 
 @font-face {

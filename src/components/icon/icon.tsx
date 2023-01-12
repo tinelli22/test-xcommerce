@@ -1,13 +1,14 @@
 
 import { IconNamesTypes } from './IconNamesType';
 import styles from './icon.module.css';
+import { HTMLAttributes } from 'react';
 
-type IconTypes = {
+interface IconModel extends HTMLAttributes<HTMLElement> {
     name: IconNamesTypes
 }
 
-export default function Icon({ name }: IconTypes) {
+export default function Icon({ name, ...rest }: IconModel) {
     return(
-        <i className={styles[name]}></i>
+        <i {...rest} className={styles[name]}></i>
     )
 }

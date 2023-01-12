@@ -1,0 +1,42 @@
+.main {
+  background: #fff;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 2.125rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  line-height: 1.875rem;
+  font-weight: 600;
+  color: #061237;
+}
+
+.icons {
+  font-size: 20px;
+  color: #235ee7;
+}
+
+.icons i:first-of-type {
+    margin-right: 10px;
+}
+
+.table {
+    display: grid;
+  background: #f3f5f9;
+  border-radius: 8px;
+  padding: 1.875rem;
+}
+
+.table.line {
+    grid-template-columns: 1fr;
+}
+
+.table.columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
