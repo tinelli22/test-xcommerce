@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import LayoutTypes from "../../types/LayoutType";
 import Icon from "../icon/icon";
 import styles from "./table.module.css";
 
@@ -7,7 +8,7 @@ interface TableModel {
   children: React.ReactNode;
   onPrev: () => void;
   onNext: () => void;
-  layout?: 'columns' | 'line'
+  layout?: LayoutTypes
 }
 
 export default function Table({ title, children, layout = 'line' ,onPrev, onNext }: TableModel) {

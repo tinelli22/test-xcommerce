@@ -1,0 +1,94 @@
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 0 0;
+}
+
+.main::after {
+  content: "";
+  display: block;
+  width: 100%;
+  border: 1px dashed #0000001a;
+  margin: 1.25rem 0 0;
+}
+
+.text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.188rem;
+  color: #6b7183;
+}
+
+.name {
+  color: #235ee7;
+}
+
+.light {
+  font-weight: 400;
+}
+
+.img {
+  width: 85px;
+  height: 85px;
+}
+
+.col-1 {
+  padding: 0 2.625rem 0 1.813rem;
+}
+
+.col-2 {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.col-3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 146px;
+  padding: 0 0 0 2.5rem;
+}
+
+.icon.heart-filled {
+  color: #D32811;
+}
+
+.main.columns {
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 200px;
+  cursor: pointer;
+}
+
+.main.columns::after {
+  display: none;
+}
+
+.main.columns:hover > * {
+  text-decoration: underline;
+}
+
+.main.columns .img {
+  width: 100%;
+  height: 148.79px;
+  padding: 0 0 0.875rem;
+}
+
+.main.columns .col-1 .code,
+.main.columns .col-2 .total,
+.main.columns .col-3 {
+  display: none;
+}
+
+.main.columns .col-1 {
+  order: 2;
+  padding: 0;
+}
+
+.main.columns .col-2 {
+  order: 1;
+  padding: 0 0 0.334rem;
+}

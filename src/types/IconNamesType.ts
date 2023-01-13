@@ -1,4 +1,4 @@
-const IconNames = {
+export const IconNames = {
    arrowLeft: 'arrow-left',
    arrowRight: 'arrow-right',
    chevronDown: 'chevron-down',
@@ -7,4 +7,6 @@ const IconNames = {
    search: 'search'
 } as const;
 
-export type IconNamesTypes = typeof IconNames[keyof typeof IconNames] 
+type IconNamesTypes = typeof IconNames[keyof typeof IconNames];
+
+export default IconNamesTypes

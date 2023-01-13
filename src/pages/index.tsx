@@ -1,12 +1,9 @@
 import Head from 'next/head'
 import Header from '../components/header/header'
-import Table from '../components/table/table'
-
+import Product from '../components/product/product'
 
 export default function Home() {
-  const onClick = () => {
-
-  }
+ 
 
   return (
     <>
@@ -18,13 +15,14 @@ export default function Home() {
       </Head>
       <Header />
       <main>
-        <Table title='Mais vendidos' layout='columns' onPrev={onClick} onNext={onClick}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-        </Table>
+        <Product 
+        name='Kit 10 Un. Adesivo 3m Porta Cartão De Silicone Para Celular'
+        code='#MLB2063247364'
+        price={300.67}
+        sales={4}
+        stock={1}
+        layout="columns"
+        />
       </main>
     </>
   )

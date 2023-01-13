@@ -1,5 +1,5 @@
 
-import { IconNamesTypes } from './IconNamesType';
+import IconNamesTypes from '../../types/IconNamesType';
 import styles from './icon.module.css';
 import { HTMLAttributes } from 'react';
 
