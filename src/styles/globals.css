@@ -50,3 +50,58 @@ i {
 a:-webkit-any-link {
   text-decoration: none;
 }
+
+/* 
+  modal'classes
+*/
+
+.modal-wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  display: none;
+}
+
+.modal-background {
+  background: #0000007a;
+  height: 100%;
+}
+
+.modal-content {
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  min-width: 400px;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.modal-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-row::after {
+  content: "";
+display: block;
+width: 100%;
+border: 1px solid #0000001a;
+margin-top: 14px;
+}
+
+.modal-close {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.open {
+  display: block;
+}
+
+/* -------------------------------------- */
