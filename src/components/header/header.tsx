@@ -4,13 +4,40 @@ import styles from "./header.module.css";
 import Image from "next/image";
 import classNames from "classnames";
 import Link from "next/link";
+import { useContext, useEffect, useRef } from "react";
 
 import avatar from "../../../public/images/png/avatar.png";
-import { useRef } from "react";
+import { AppContext } from "../../context/context";
 
 export default function Header() {
-  const btnAllRef = useRef<HTMLButtonElement>(null);
-  const btnFavRef = useRef<HTMLButtonElement>(null);
+  const { dispatch } = useContext(AppContext);
+  const parentLinksRef = useRef<HTMLDivElement>(null);
+  
+
+  //incomplete
+  const addSelect = (el?: HTMLAnchorElement) => {
+    const path = window.location.pathname;
+    const children = parentLinksRef.current!.children;
+
+    
+    for (let index = 0; index < children.length; index++) {
+      const loopEl = children[index] as HTMLAnchorElement;
+      loopEl.classList.remove("nav-selected");
+
+      if(el) { el.classList.add("nav-selected") }
+      else {
+
+      }
+    }
+  }
+
+  useEffect(() => { 
+    addSelect()
+  }, []);
+
+  const openCreateModal = () => {
+    dispatch({type: "ADD_CONTENT", payload: {title: 'blabla', content: () => (<p>im content</p>)}})
+  }
 
   return (
     <header className={styles.main}>
@@ -46,15 +73,15 @@ export default function Header() {
       <span className={styles.line}></span>
       <Container>
         <div className={classNames(styles.row, styles.buttons)}>
-          <div>
-            <button ref={btnAllRef} className={styles.button}>
+          <div ref={parentLinksRef}>
+            <Link href="/" className={styles.button} onClick={el => addSelect((el.target) as HTMLAnchorElement)}>
               Todos
-            </button>
-            <button ref={btnFavRef} className={styles.button}>
+            </Link>
+            <Link href="/favoritos" className={styles.button} onClick={el => addSelect((el.target) as HTMLAnchorElement)}>
               Favoritos
-            </button>
+            </Link>
           </div>
-          <button className={styles.button}>Criar novo</button>
+          <button className={classNames(styles.button, styles.create)} onClick={openCreateModal}>Criar novo</button>
         </div>
       </Container>
     </header>

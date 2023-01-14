@@ -105,3 +105,9 @@ margin-top: 14px;
 }
 
 /* -------------------------------------- */
+
+/* ----------- navitation classes ---------- */
+
+.nav-selected {
+  background: #D32811 !important;
+}
