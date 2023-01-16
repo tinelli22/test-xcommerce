@@ -1,0 +1,19 @@
+.wrapperContent {
+    display: flex;
+    gap: 29px;
+    padding: 4.375rem 0 0;
+}
+
+.wrapperTable {
+    display: flex;
+    flex-direction: column;
+}
+
+.alignRight {
+    text-align: right;
+   font-weight: 500;
+   font-size: 0.875rem;
+   line-height: 1.063rem;
+   color: #636363;
+   margin-top: 0.714rem;
+}

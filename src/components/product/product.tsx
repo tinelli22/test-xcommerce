@@ -10,12 +10,16 @@ import { useState } from "react";
 
 import prodImg from "../../../public/images/png/productImage.png";
 
-interface ProductModel {
+export interface ProductModel {
+  id: string;
   name: string;
   code: string;
   sales: number;
   price: number;
   stock: number;
+}
+
+export interface ProductModelLayout extends ProductModel {
   layout?: LayoutTypes;
 }
 
@@ -26,7 +30,7 @@ export default function Product({
   sales,
   price,
   stock,
-}: ProductModel) {
+}: ProductModelLayout) {
 
   const { heart, heartFilled } = IconNames;
   

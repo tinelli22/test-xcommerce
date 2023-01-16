@@ -3,7 +3,7 @@ import LayoutTypes from "../../types/LayoutType";
 import Icon from "../icon/icon";
 import styles from "./table.module.css";
 
-interface TableModel {
+export interface TableModel {
   title: string;
   children: React.ReactNode;
   onPrev: () => void;
