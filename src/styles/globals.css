@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import './pallete.css';
 
 * {
   font-family: 'Inter', sans-serif;
@@ -21,6 +22,26 @@ button {
 
 li {
   list-style: none;
+}
+
+input {
+  border-radius: 8px;
+  padding: 0 1rem;
+  height: 2.5rem;
+}
+
+
+input:focus-visible {
+  outline: none;
+}
+
+input.error {
+  border: 1px solid var(--error);
+}
+
+.message-error {
+  display: block !important;
+  color: var(--error);
 }
 
 @font-face {

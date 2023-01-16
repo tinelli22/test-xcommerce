@@ -8,11 +8,11 @@ import { useContext, useEffect, useRef } from "react";
 
 import avatar from "../../../public/images/png/avatar.png";
 import { AppContext } from "../../context/context";
+import ProductForm from "../productForm/productForm";
 
 export default function Header() {
   const { dispatch } = useContext(AppContext);
   const parentLinksRef = useRef<HTMLDivElement>(null);
-  
 
   //incomplete
   const addSelect = (el?: HTMLAnchorElement) => {
@@ -35,8 +35,12 @@ export default function Header() {
     addSelect()
   }, []);
 
+  const onSubmitForm = () => {
+
+  }
+
   const openCreateModal = () => {
-    dispatch({type: "ADD_CONTENT", payload: {title: 'blabla', content: () => (<p>im content</p>)}})
+    dispatch({type: "ADD_CONTENT", payload: {title: 'Novo produto', content: () => <ProductForm onSubmit={onSubmitForm}/> }})
   }
 
   return (

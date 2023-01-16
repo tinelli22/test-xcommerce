@@ -1,0 +1,55 @@
+.wrapperProductForm {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wrapperProductForm label {
+    display: flex;
+   flex-direction: column;
+}
+
+.wrapperCode {
+    display: flex;
+    align-items: center;
+}
+
+.wrapperCode span {
+    background: #F3F5F9;
+    padding: 0.5rem;
+    height: 100%;
+    border: 1px solid;
+}
+
+.wrapperCode input {
+    border-radius: 0 8px 8px 0;
+    width: 100%;
+}
+
+.number {
+    text-align: end;
+}
+
+.wrapperPrice input {
+    width: 50%;
+}
+
+.labels {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.buttonSubmit {
+    height: 2.4rem;
+    width: 120px;
+    margin-left: auto;
+}
+
+.messageInputForm {
+    display: none;
+    transition: display 3s;
+    font-weight: 700;
+    padding-top: 0.5rem;
+}
