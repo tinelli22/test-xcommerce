@@ -149,3 +149,20 @@ margin-top: 14px;
 .message.success {
   color: var(--success);
 }
+
+/* products pagination classes */
+
+.alignTextPaginationRight {
+  text-align: right;
+ font-weight: 500;
+ font-size: 0.875rem;
+ line-height: 1.063rem;
+ color: #636363;
+ margin-top: 0.714rem;
+}
+
+/*----------------*/
+
+:root {
+  --template-table-columns: 109px 217px 230px 200px;
+}

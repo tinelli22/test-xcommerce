@@ -45,6 +45,9 @@ export default function Header() {
       if(!resp) throw Error("Erro no servidor!");
 
       feedback('Cadastrado com sucesso!', 'success')
+      setTimeout(() => {
+        location.reload()
+      }, 2000);
     } catch (err) {
       console.error(err);
       feedback(err as string, 'error');
@@ -52,11 +55,13 @@ export default function Header() {
   }
   
   const feedback = (msg: string, status: feedbackStatus) => {
+   
     messageRef.current!.classList.add(status);
     messageRef.current!.innerHTML = msg;
     
     setTimeout(() => {
-      location.reload()
+      messageRef.current!.classList.remove(status);
+      messageRef.current!.innerHTML = '';
     }, 4000);
   }
 

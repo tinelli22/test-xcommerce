@@ -54,40 +54,43 @@ export default function Product({
   }
 
   return (
-    <div className={classNames(styles["main"], styles[layout])}>
-      <Image src={prodImg} alt="image" className={styles["img"]} />
-      <div className={styles["col-1"]}>
-        <p id="name" className={classNames(styles["name"], styles["text"])}>
-          {customName()}
-        </p>
-        <p className={classNames(styles["text"], styles["code"])}>
-          {code}
-        </p>
-      </div>
-      <div className={styles["col-2"]}>
-        <p className={classNames(styles["text"])} id="price">
-          {price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          })}
-        </p>
-        <div>
-          <p className={classNames(styles["text"], styles["total"])}>
-            Total de {Math.floor(sales * price)}
+    <>
+      <div className={classNames(styles["main"], styles[layout])}>
+        <Image src={prodImg} alt="image" className={styles["img"]} />
+        <div className={styles["col-1"]}>
+          <p id="name" className={classNames(styles["name"], styles["text"])}>
+            {customName()}
           </p>
-          <p id="sales" className={classNames(styles["text"], styles["light"])}>
-            {sales} vendas
+          <p className={classNames(styles["text"], styles["code"])}>
+            {code}
           </p>
         </div>
-      </div>
-      <div className={styles["col-3"]}>
-        <p id="stock" className={classNames(styles["text"], styles["light"])}>
-          {stock} und
-        </p>
-        <div className={classNames(styles["icon"], styles[icon])}>
-          <Icon name={icon} onClick={onClickFav} />
+        <div className={styles["col-2"]}>
+          <p className={classNames(styles["text"])} id="price">
+            {price.toLocaleString("pt-br", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </p>
+          <div>
+            <p className={classNames(styles["text"], styles["total"])}>
+              Total de {Math.floor(sales * price)}
+            </p>
+            <p id="sales" className={classNames(styles["text"], styles["light"])}>
+              {sales} vendas
+            </p>
+          </div>
+        </div>
+        <div className={styles["col-3"]}>
+          <p id="stock" className={classNames(styles["text"], styles["light"])}>
+            {stock} und
+          </p>
+          <div className={classNames(styles["icon"], styles[icon])}>
+            <Icon name={icon} onClick={onClickFav} />
+          </div>
         </div>
       </div>
-    </div>
+      {layout === 'line' && <p className={styles.line}></p>}
+    </>
   );
 }

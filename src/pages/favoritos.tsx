@@ -1,8 +1,5 @@
 import Head from 'next/head'
-import { useRef } from 'react'
-import Header from '../components/header/header'
-import Modal, { ModalFunctions } from '../components/modal/modal'
-import Product from '../components/product/product'
+
 
 export default function Favorites() {
  

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import ProductsPagination from '../components/productsPagination/productsPagination'
 
 export default function Home() {
   
@@ -12,7 +13,7 @@ export default function Home() {
       </Head>
      
       <section>
-        home
+        <ProductsPagination title='Todos os Produtos' config={{limit: 5, orderSales: false, page: 1}} layout="line"><></></ProductsPagination>
       
       </section>
     </>

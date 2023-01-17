@@ -1,12 +1,21 @@
 .main {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: var(--template-table-columns);
   width: 100%;
   padding: 1.25rem 0 0;
 }
 
-.main::after {
+.main.line:first-of-type {
+  padding: 0;
+}
+
+.line:last-of-type::after,
+.main.line::after {
+  display: none;
+}
+
+
+.line::after {
   content: "";
   display: block;
   width: 100%;
@@ -35,7 +44,8 @@
 }
 
 .col-1 {
-  padding: 0 2.625rem 0 1.813rem;
+  padding: 0 2rem;
+  
 }
 
 .col-2 {
@@ -57,15 +67,12 @@
 }
 
 .main.columns {
+  display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   align-items: flex-start;
   width: 200px;
   cursor: pointer;
-}
-
-.main.columns::after {
-  display: none;
 }
 
 .main.columns:hover > * {
