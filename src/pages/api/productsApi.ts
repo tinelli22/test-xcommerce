@@ -341,14 +341,8 @@ const products = [
   },
 ] as ProductModel[];
 
-function createPagination(
-  req: NextApiRequest,
-  prods: ProductModel[]
-) {
-  
-}
-
 function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
+
   const page = parseInt(req.query.page as string);
   const limit = parseInt(req.query.limit as string) || 5;
   const orderSales = Boolean(req.query.orderSales);
@@ -384,14 +378,21 @@ function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function postRequestMethod(req: NextApiRequest, res: NextApiResponse) {
-  const id = getId();
 
+  const id = getId();
+  const newProd = req.body as ProductModel;
+  newProd.id = id;
+  products.push(newProd)
+
+  res.status(201).json("Cadastrado com sucesso");
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.method);
+  const method = req.method?.toLowerCase()
   
-  if (req.method?.toLocaleLowerCase() == "get") {
+  if (method == "get") {
     getRequestMethod(req, res);
+  } else if(method == "post" && req.body) {
+    postRequestMethod(req, res)
   }
 }

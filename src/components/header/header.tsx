@@ -9,10 +9,14 @@ import { useContext, useEffect, useRef } from "react";
 import avatar from "../../../public/images/png/avatar.png";
 import { AppContext } from "../../context/context";
 import ProductForm from "../productForm/productForm";
+import { ProductModel } from "../product/product";
+import { saveProductService } from "../../services/productService";
 
 export default function Header() {
   const { dispatch } = useContext(AppContext);
   const parentLinksRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLParagraphElement>(null);
+  type feedbackStatus = 'success' | 'error';
 
   //incomplete
   const addSelect = (el?: HTMLAnchorElement) => {
@@ -35,12 +39,33 @@ export default function Header() {
     addSelect()
   }, []);
 
-  const onSubmitForm = () => {
+  const onSubmitForm = async (data: ProductModel) => {
+    try {
+      const resp = await saveProductService(data);
+      if(!resp) throw Error("Erro no servidor!");
 
+      feedback('Cadastrado com sucesso!', 'success')
+    } catch (err) {
+      console.error(err);
+      feedback(err as string, 'error');
+    }
+  }
+  
+  const feedback = (msg: string, status: feedbackStatus) => {
+    messageRef.current!.classList.add(status);
+    messageRef.current!.innerHTML = msg;
+    
+    setTimeout(() => {
+      location.reload()
+    }, 4000);
   }
 
   const openCreateModal = () => {
-    dispatch({type: "ADD_CONTENT", payload: {title: 'Novo produto', content: () => <ProductForm onSubmit={onSubmitForm}/> }})
+    dispatch({type: "ADD_CONTENT", payload: { title: 'Novo produto', content: () => <>
+      <ProductForm onSubmit={onSubmitForm}/> 
+     <p ref={messageRef} className="message"></p>
+    </>
+    }})
   }
 
   return (

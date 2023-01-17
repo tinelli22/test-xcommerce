@@ -16,6 +16,19 @@ export const getProductsService = async (config: InitialPaginationProductApi) =>
   }
 };
 
-export const saveProductService = (prod: ProductModel) => {
-
+export const saveProductService = async (prod: ProductModel) => {
+  try {
+    
+    return await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(prod),
+      method: 'POST'
+    })
+  } catch (err) {
+    console.error(err);
+    return null
+  }
 }

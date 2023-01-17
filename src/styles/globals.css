@@ -36,13 +36,14 @@ input:focus-visible {
 }
 
 input.error {
-  border: 1px solid var(--error);
+  border: 2px solid var(--error);
 }
 
-.message-error {
-  display: block !important;
+label.error {
   color: var(--error);
+  font-weight: 700;
 }
+
 
 @font-face {
   font-family: 'xcommerce-icons';
@@ -135,4 +136,16 @@ margin-top: 14px;
 
 .nav-selected {
   background: #D32811 !important;
+}
+
+.message {
+  font-weight: 700;
+}
+
+.message.error {
+  color: var(--error);
+}
+
+.message.success {
+  color: var(--success);
 }
