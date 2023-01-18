@@ -9,17 +9,9 @@ import classNames from "classnames";
 import { useState } from "react";
 
 import prodImg from "../../../public/images/png/productImage.png";
+import { ProductFavoriteModel } from "../../types/serverSideTypes";
 
-export interface ProductModel {
-  id: string;
-  name: string;
-  code: string;
-  sales: number;
-  price: number;
-  stock: number;
-}
-
-export interface ProductModelLayout extends ProductModel {
+export interface ProductModelLayout extends ProductFavoriteModel {
   layout?: LayoutTypes;
 }
 
@@ -30,11 +22,12 @@ export default function Product({
   sales,
   price,
   stock,
+  favorite
 }: ProductModelLayout) {
 
   const { heart, heartFilled } = IconNames;
   
-  const [icon, setIcon] = useState<typeof heart | typeof heartFilled>('heart');
+  const [icon, setIcon] = useState<typeof heart | typeof heartFilled>(favorite ? 'heart-filled' : 'heart');
 
   const customName = () => {
     let n = name;

@@ -1,13 +1,13 @@
-import { ProductModel } from "../components/product/product";
-import { InitialPaginationProductApi, PaginationProductApi } from "../pages/api/productsApi";
+
+import { ConfigPaginationType, PaginationProductApi, ProductModel } from "../types/serverSideTypes";
 
 const url = `api/productsApi`;
 
-export const getProductsService = async (config: InitialPaginationProductApi) => {
+export const getProductsService = async (config: ConfigPaginationType) => {
   try {
-    const { page, limit, orderSales, search = '' } = config;
+    const { page, limit, category, search = '', frontendPage  } = config;
 
-    const resp = await fetch(`${url}?` + new URLSearchParams(`page=${page}&limit=${limit}&orderSales=${orderSales}&search=${search}`));
+    const resp = await fetch(`${url}?` + new URLSearchParams(`page=${page}&limit=${limit}&category=${category}&search=${search}&frontendPage=${frontendPage}`));
     return await resp.json() as PaginationProductApi;
 
   } catch (err) {

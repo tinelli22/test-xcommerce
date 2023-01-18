@@ -1,8 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import {
-  InitialPaginationProductApi,
-  PaginationProductApi,
-} from "../../pages/api/productsApi";
+
 import { getProductsService } from "../../services/productService";
 import LayoutTypes from "../../types/LayoutType";
 import Product, { ProductModelLayout } from "../product/product";
@@ -11,24 +8,23 @@ import Table from "../table/table";
 import styles from "./productsPagination.module.css";
 import stylesProductComponent from "../product/product.module.css";
 import classNames from "classnames";
+import {
+  ConfigPaginationType,
+  PaginationProductApi,
+} from "../../types/serverSideTypes";
 
 interface ProductsPaginationModel {
-  config: InitialPaginationProductApi;
+  config: ConfigPaginationType;
   layout: LayoutTypes;
   title: string;
 }
-
-type aux = Omit<PaginationProductApi, "data">;
-type CustomPaginationProductApi = {
-  data: ProductModelLayout[];
-} & aux;
 
 type MessagesLoadingTable =
   | "Carregando dados..."
   | "Ops.. Erro ao recuperar dados!";
 
 export type ProductsPaginationFunctions = {
-  fetchDataWithSearch: (con: InitialPaginationProductApi) => void;
+  fetchDataWithSearch: (con: ConfigPaginationType) => void;
 };
 
 const ProductsPagination = forwardRef<
@@ -43,19 +39,15 @@ const ProductsPagination = forwardRef<
     },
   }));
 
-  const [data, setData] = useState<CustomPaginationProductApi | null>(null);
+  const [data, setData] = useState<PaginationProductApi | null>(null);
   const [message, setMessage] = useState<MessagesLoadingTable>(
     "Carregando dados..."
   );
 
-  const fetchData = async (conf?: InitialPaginationProductApi) => {
-    let c = conf;
+  const fetchData = async (conf: ConfigPaginationType) => {
 
-    if (!c) {
-      c = config;
-    }
-
-    let resp = await getProductsService(c);
+    let resp = await getProductsService(conf);
+    
     if (!resp) setMessage("Ops.. Erro ao recuperar dados!");
     else {
       const mappData = resp!.data.map((p) => {
@@ -72,32 +64,32 @@ const ProductsPagination = forwardRef<
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(config);
   }, []);
 
   const onNextPag = () => {
     if (!data) return;
 
-    const next = data.page + 1;
-    if (next > data.finalPage) return;
+    const next = data.config.page + 1;
+    if (next > data.config.finalPage!) return;
 
     fetchData({
-      limit: data.limit,
+      ...config,
+      limit: data.config.limit,
       page: next,
-      orderSales: true,
     });
   };
 
   const onPrevPag = () => {
     if (!data) return;
 
-    const next = data.page - 1;
-    if (next > data.page || next <= 0) return;
+    const next = data.config.page - 1;
+    if (next > data.config.page || next <= 0) return;
 
     fetchData({
-      limit: data.limit,
+      ...config,
+      limit: data.config.limit,
       page: next,
-      orderSales: true,
     });
   };
 
@@ -120,7 +112,7 @@ const ProductsPagination = forwardRef<
                   identificação
                 </p>
                 <p></p>
-                <div className={stylesProductComponent['col-2']}>
+                <div className={stylesProductComponent["col-2"]}>
                   <p
                     style={{ textTransform: "uppercase" }}
                     className={stylesProductComponent.text}
@@ -136,7 +128,10 @@ const ProductsPagination = forwardRef<
                 </div>
                 <p
                   style={{ textTransform: "uppercase" }}
-                  className={classNames(stylesProductComponent.text, stylesProductComponent['col-3'])}
+                  className={classNames(
+                    stylesProductComponent.text,
+                    stylesProductComponent["col-3"]
+                  )}
                 >
                   estoque
                 </p>
@@ -147,7 +142,7 @@ const ProductsPagination = forwardRef<
             })}
           </Table>
           <p className="alignTextPaginationRight">
-            Página {data.page} de {data.finalPage}
+            Página {data.config.page} de {data.config.finalPage}
           </p>
         </div>
       ) : (

@@ -17,7 +17,7 @@ export default function Layout({ children }: LayoutType) {
       <main>
         <Container>
           <div className={styles.wrapperContent}>
-            <ProductsPagination title="Mais Vendidos" config={{limit: 6, orderSales: true, page: 1}} layout="columns"><></></ProductsPagination>
+            <ProductsPagination title="Mais Vendidos" config={{limit: 6, category: 'sales', page: 1, frontendPage: ''}} layout="columns" />
             {children}
           </div>
         </Container>

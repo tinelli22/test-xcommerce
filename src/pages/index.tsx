@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
      
       <section>
-        <ProductsPagination title='Todos os Produtos' config={{limit: 5, orderSales: false, page: 1}} layout="line"><></></ProductsPagination>
+        <ProductsPagination title='Todos os Produtos' config={{limit: 5, category: 'common', page: 1, frontendPage: ''}} layout="line" />
       
       </section>
     </>

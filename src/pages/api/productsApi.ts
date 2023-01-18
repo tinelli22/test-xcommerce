@@ -1,20 +1,14 @@
 const { orderBy } = require("lodash");
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import {
+  CategoryProduct,
+  FrontendRequestPages,
+  PaginationProductApi,
+  ProductFavoriteModel,
   ProductModel,
-} from "../../components/product/product";
-
-export type InitialPaginationProductApi = {
-  search?: string;
-  page: number;
-  limit: number;
-  orderSales: boolean;
-};
-
-export type PaginationProductApi = {
-  data: ProductModel[];
-  finalPage: number;
-} & InitialPaginationProductApi;
+  
+} from "../../types/serverSideTypes";
 
 const getId = () => crypto.randomUUID();
 
@@ -341,18 +335,41 @@ const products = [
   },
 ] as ProductModel[];
 
-function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
+const favorites = [products[0].id, products[1].id, products[2].id];
 
+function mapProducts(prod: ProductModel[]): ProductFavoriteModel[] {
+    return prod.map(p => {
+      const id = p.id;
+      const favorite = favorites.includes(id);
+
+      return {
+        ...p,
+        favorite
+      }
+    })
+}
+
+function getRequestMethod(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  frontendPage: FrontendRequestPages
+) {
   const page = parseInt(req.query.page as string);
   const limit = parseInt(req.query.limit as string) || 5;
-  const orderSales = Boolean(req.query.orderSales);
+  
+  const category = req.query.category as CategoryProduct
   const search = req.query.search as string;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-  let result = products;
+  let result = mapProducts(products);
+  
 
-  if (orderSales && page == 1) {
-    result = orderBy(products, "sales", "desc");
+  if (frontendPage == "favoritos") {
+    result = result.filter((p) => p.favorite);
+  }
+
+  if (category == 'sales' && page == 1) {
+    result = orderBy(result, "sales", "desc");
   }
 
   if (search.length > 1) {
@@ -366,33 +383,59 @@ function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
   result = result.slice(startIndex, endIndex);
 
   const pagination: PaginationProductApi = {
-    page,
-    search,
-    orderSales,
+    config: {
+      page,
+      search,
+      category,
+      limit,
+      finalPage,
+      frontendPage
+    },
     data: result,
-    limit,
-    finalPage,
   };
 
   res.status(200).json(pagination);
 }
 
-function postRequestMethod(req: NextApiRequest, res: NextApiResponse) {
-
+function createProductRequestMethod(req: NextApiRequest, res: NextApiResponse) {
   const id = getId();
   const newProd = req.body as ProductModel;
   newProd.id = id;
-  products.push(newProd)
+  products.push(newProd);
 
   res.status(201).json("Cadastrado com sucesso");
 }
 
+function toggleFavorite(req: NextApiRequest, res: NextApiResponse) {
+  const id = req.body.id as string;
+  const prod = products.find((p) => p.id == id);
+  const hasFav = favorites.find((fav) => fav == id);
+
+  if (!prod) {
+    res.status(400).json("Requisição inválida");
+  } else {
+    let msg = "Adicionado com sucesso";
+
+    if (!hasFav) {
+      favorites.push(id);
+    } else {
+      favorites.filter((fav) => fav !== id);
+      msg = "Removido com sucesso";
+    }
+
+    res.status(201).json(msg);
+  }
+}
+
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const method = req.method?.toLowerCase()
-  
+  const method = req.method?.toLowerCase();
+  const frontendPage: FrontendRequestPages = req.query
+    .frontendPage as FrontendRequestPages;
+
   if (method == "get") {
-    getRequestMethod(req, res);
-  } else if(method == "post" && req.body) {
-    postRequestMethod(req, res)
+    getRequestMethod(req, res, frontendPage);
+  } else if (method == "post") {
+    if (frontendPage === "") createProductRequestMethod(req, res);
+    else toggleFavorite(req, res);
   }
 }
