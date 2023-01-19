@@ -18,7 +18,7 @@ async function getRequestMethod(
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  let result = prodFunctionsDB.mapProducts()
+  let result = prodFunctionsDB.mapProducts().filter(p => p.favorite)
 
 
   if (search.length > 1) {

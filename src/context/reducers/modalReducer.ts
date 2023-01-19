@@ -1,15 +1,15 @@
-import ModalActionTypes, { ModalType } from "../actionTypes/modalActionTypes";
+import ModalActionTypes, { ModalStateType } from "../actionTypes/modalActionTypes";
 
-const modalReducer = (state: ModalType, action: ModalActionTypes) => {
+const modalReducer = (state: ModalStateType, action: ModalActionTypes) => {
   switch (action.type) {
-    case 'ADD_CONTENT':
-      return {
-        title: action.payload.title,
-        content: action.payload.content,
-      };
-    
-    case 'RESET_CONTENT':
-      return null
+    case 'SET':
+      let obj = null
+      
+      if(action.payload) {
+        obj = action.payload
+      }
+
+      return obj
 
     default:
       return state;

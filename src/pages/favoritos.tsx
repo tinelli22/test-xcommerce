@@ -1,8 +1,62 @@
-import Head from 'next/head'
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import ProductsPagination from "../components/productsPagination/productsPagination";
+import { getFavoritesService } from "../services/favoriteService";
+import { getProductsService } from "../services/productService";
+import {
+  ConfigPaginationType,
+  PaginationProductApi,
+} from "../types/serverSideTypes";
 
+export default function Favoritos() {
+  const initialConfig: ConfigPaginationType = {
+    category: "common",
+    limit: 6,
+    page: 1,
+  };
 
-export default function Favorites() {
- 
+  const [data, setData] = useState<PaginationProductApi>({
+    config: initialConfig,
+    data: [],
+  });
+
+  const fetchData = async (config: ConfigPaginationType) => {
+    try {
+      const resp = await getFavoritesService(config, "line");
+      if (!resp) throw Error("Erro ao recuperar dados");
+
+      setData(resp);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onNext = async () => {
+    const { config } = data;
+    const next = config.page + 1;
+
+    if (next > config.finalPage!) return;
+
+    fetchData({
+      ...config,
+      page: next,
+    });
+  };
+
+  const onPrev = async () => {
+    const { config } = data;
+    const next = config.page - 1;
+    if (next > config.page || next <= 0) return;
+
+    fetchData({
+      ...config,
+      page: next,
+    });
+  };
+
+  useEffect(() => {
+    fetchData(initialConfig);
+  }, []);
 
   return (
     <>
@@ -12,9 +66,18 @@ export default function Favorites() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <section>
-        
+        <ProductsPagination
+          title="Produtos Favoritos"
+          layout="line"
+          onNext={onNext}
+          onPrev={onPrev}
+          page={data.config.page}
+          finalPage={data.config.finalPage!}
+          products={data.data}
+        />
       </section>
     </>
-  )
+  );
 }

@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   CategoryProduct,
   PaginationProductApi,
-  ProductFavoriteModel,
   ProductModel,
 } from "../../types/serverSideTypes";
 import { prodFunctionsDB } from "./dbApi";

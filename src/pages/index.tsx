@@ -1,8 +1,62 @@
-import Head from 'next/head'
-import ProductsPagination from '../components/productsPagination/productsPagination'
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import ProductsPagination from "../components/productsPagination/productsPagination";
+import { getProductsService } from "../services/productService";
+import {
+  ConfigPaginationType,
+  PaginationProductApi,
+} from "../types/serverSideTypes";
 
 export default function Home() {
-  
+  const initialConfig: ConfigPaginationType = {
+    category: "common",
+    limit: 6,
+    page: 1,
+  };
+
+  const [data, setData] = useState<PaginationProductApi>({
+    config: initialConfig,
+    data: [],
+  });
+
+  const fetchData = async (config: ConfigPaginationType) => {
+    try {
+      const resp = await getProductsService(config, "line");
+      if (!resp) throw Error("Erro ao recuperar dados");
+
+      setData(resp);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onNext = async () => {
+    const { config } = data;
+    const next = config.page + 1;
+
+    if (next > config.finalPage!) return;
+
+    fetchData({
+      ...config,
+      page: next,
+    });
+  };
+
+  const onPrev = async () => {
+    const { config } = data;
+    const next = config.page - 1;
+    if (next > config.page || next <= 0) return;
+
+    fetchData({
+      ...config,
+      page: next,
+    });
+  };
+
+  useEffect(() => {
+    fetchData(initialConfig);
+  }, []);
+
   return (
     <>
       <Head>
@@ -11,11 +65,18 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-     
+
       <section>
-        <ProductsPagination title='Todos os Produtos' config={{limit: 5, category: 'common', page: 1 }} layout="line" />
-      
+        <ProductsPagination
+          title="Todos os Produtos"
+          layout="line"
+          onNext={onNext}
+          onPrev={onPrev}
+          page={data.config.page}
+          finalPage={data.config.finalPage!}
+          products={data.data}
+        />
       </section>
     </>
-  )
+  );
 }

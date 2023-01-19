@@ -1,4 +1,0 @@
-
-const addModalContent = (state, action) => {
-    
-}

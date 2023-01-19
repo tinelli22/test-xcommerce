@@ -1,22 +1,15 @@
 import React from "react";
-import { ActionMap } from "../reducers";
-
-const Actiontypes = {
-    ADD_CONTENT: 'ADD_CONTENT',
-    RESET_CONTENT: 'RESET_CONTENT'
-} as const;
+import { ActionMap, ActionTypesContext } from "../reducers";
 
 
 export type ModalPayload = {
-    [Actiontypes.ADD_CONTENT]: {
+    [ActionTypesContext.SET]: {
         title: string,
         content: () => void
     },
-    [Actiontypes.RESET_CONTENT]: undefined
-    
 }
 
-export type ModalType = {
+export type ModalStateType = {
     content: () => React.ReactNode ,
     title: string;
 } | null;

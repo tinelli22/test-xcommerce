@@ -5,13 +5,14 @@ import Image from "next/image";
 import Icon from "../icon/icon";
 import classNames from "classnames";
 import { useState } from "react";
-import { ProductFavoriteModel } from "../../types/serverSideTypes";
+import { ProductModel } from "../../types/serverSideTypes";
 
 import prodImg from "../../../public/images/png/productImage.png";
 import { toggleFavoriteService } from "../../services/favoriteService";
 
-export interface ProductModelLayout extends ProductFavoriteModel {
+export interface ProductModelLayout extends ProductModel {
   layout?: LayoutTypes;
+  favorite: boolean
 }
 
 export default function Product({

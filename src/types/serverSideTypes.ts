@@ -1,3 +1,4 @@
+import { ProductModelLayout } from "../components/product/product";
 
 export interface ProductModel {
   id: number;
@@ -10,9 +11,6 @@ export interface ProductModel {
 
 export type CategoryProduct = 'common' | 'sales'
 
-export interface ProductFavoriteModel extends ProductModel {
-  favorite: boolean
-}
 
 export type ConfigPaginationType = {
   search?: string;
@@ -23,6 +21,6 @@ export type ConfigPaginationType = {
 }
 
 export type PaginationProductApi = {
-  data: any[];
+  data: ProductModelLayout[];
   config: ConfigPaginationType
 };
