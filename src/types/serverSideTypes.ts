@@ -14,18 +14,15 @@ export interface ProductFavoriteModel extends ProductModel {
   favorite: boolean
 }
 
-export type FrontendRequestPages = '' | 'favoritos';
-
 export type ConfigPaginationType = {
   search?: string;
   page: number;
   finalPage?: number;
   limit: number;
   category: CategoryProduct
-  frontendPage: FrontendRequestPages
 }
 
 export type PaginationProductApi = {
-  data: ProductFavoriteModel[];
+  data: any[];
   config: ConfigPaginationType
 };

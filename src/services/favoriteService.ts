@@ -1,10 +1,10 @@
 
 import { ConfigPaginationType, PaginationProductApi, ProductModel } from "../types/serverSideTypes";
 
-const productApiUrl = `api/productsApi`;
+const favoriteApiUrl = `api/favoritesApi`;
 
 const post = async (obj: ProductModel | {id: string }) => {
-  return await fetch(productApiUrl, {
+  return await fetch(favoriteApiUrl, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -14,11 +14,11 @@ const post = async (obj: ProductModel | {id: string }) => {
   })
 }
 
-export const getProductsService = async (config: ConfigPaginationType) => {
+export const getProductsFavoritesService = async (config: ConfigPaginationType) => {
   try {
     const { page, limit, category, search = ''  } = config;
 
-    const resp = await fetch(`${productApiUrl}?` + new URLSearchParams(`page=${page}&limit=${limit}&category=${category}&search=${search}`));
+    const resp = await fetch(`${favoriteApiUrl}?` + new URLSearchParams(`page=${page}&limit=${limit}&category=${category}&search=${search}`));
     return await resp.json() as PaginationProductApi;
 
   } catch (err) {
@@ -27,17 +27,7 @@ export const getProductsService = async (config: ConfigPaginationType) => {
   }
 };
 
-export const saveProductService = async (prod: ProductModel) => {
-  try {
-    
-    return await post(prod);
-  } catch (err) {
-    console.error(err);
-    return null
-  }
-}
-
-export const toggleFavorite = async (id: string) => {
+export const toggleFavoriteService = async (id: string) => {
   try {
     
 
