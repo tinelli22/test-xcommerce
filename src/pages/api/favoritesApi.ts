@@ -3,10 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   CategoryProduct,
   PaginationProductApi,
-  ProductFavoriteModel,
-  ProductModel
 } from "../../types/serverSideTypes";
-import dbApi from "./dbApi";
+import { favFunctionsDB, prodFunctionsDB } from "./dbApi";
 
 async function getRequestMethod(
   req: NextApiRequest,
@@ -20,7 +18,7 @@ async function getRequestMethod(
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  let result = dbApi.mapProducts()
+  let result = prodFunctionsDB.mapProducts()
 
 
   if (search.length > 1) {
@@ -48,19 +46,19 @@ async function getRequestMethod(
 }
 
 function toggleFavorite(req: NextApiRequest, res: NextApiResponse) {
-  const id = req.body.id as string;
-  const prod = dbApi.productsDB.find((p) => p.id == id);
-  const hasFav = dbApi.favoritesDB.find((fav) => fav == id);
-
+  const id = req.body.id as number;
+  const prod = prodFunctionsDB.getProduct(id);
+  const hasFav = favFunctionsDB.getFavorite(id);
+  
   if (!prod) {
     res.status(400).json("Requisição inválida");
   } else {
     let msg = "Adicionado com sucesso";
 
     if (!hasFav) {
-      dbApi.favoritesDB.push(id);
+     favFunctionsDB.setFavorite(id);
     } else {
-      dbApi.favoritesDB.filter((fav) => fav !== id);
+      favFunctionsDB.removeFavorite(id);
       msg = "Removido com sucesso";
     }
 

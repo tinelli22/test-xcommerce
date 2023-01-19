@@ -7,7 +7,7 @@ import {
   ProductFavoriteModel,
   ProductModel,
 } from "../../types/serverSideTypes";
-import dbApi from "./dbApi";
+import { prodFunctionsDB } from "./dbApi";
 
 
 
@@ -19,7 +19,7 @@ function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
   const search = req.query.search as string;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-  let result = (dbApi.mapProducts());
+  let result = (prodFunctionsDB.mapProducts());
 
   if (category == "sales") {
     result = orderBy(result, "sales", "desc");
@@ -50,10 +50,10 @@ function getRequestMethod(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function createProductRequestMethod(req: NextApiRequest, res: NextApiResponse) {
-  const id = dbApi.getId();
+  const id = prodFunctionsDB.getId();
   const newProd = req.body as ProductModel;
   newProd.id = id;
-  dbApi.productsDB.push(newProd);
+  prodFunctionsDB.setProduct(newProd);
 
   res.status(201).json("Cadastrado com sucesso");
 }

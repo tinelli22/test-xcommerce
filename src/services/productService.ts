@@ -36,13 +36,3 @@ export const saveProductService = async (prod: ProductModel) => {
     return null
   }
 }
-
-export const toggleFavorite = async (id: string) => {
-  try {
-    
-
-  } catch (err) {
-    console.error(err);
-    return null
-  }
-}

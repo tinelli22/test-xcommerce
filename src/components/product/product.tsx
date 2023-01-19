@@ -1,15 +1,14 @@
 import styles from "./product.module.css";
-
 import LayoutTypes from "../../types/LayoutType";
 import { IconNames } from '../../types/IconNamesType';
-
 import Image from "next/image";
 import Icon from "../icon/icon";
 import classNames from "classnames";
 import { useState } from "react";
+import { ProductFavoriteModel } from "../../types/serverSideTypes";
 
 import prodImg from "../../../public/images/png/productImage.png";
-import { ProductFavoriteModel } from "../../types/serverSideTypes";
+import { toggleFavoriteService } from "../../services/favoriteService";
 
 export interface ProductModelLayout extends ProductFavoriteModel {
   layout?: LayoutTypes;
@@ -22,13 +21,14 @@ export default function Product({
   sales,
   price,
   stock,
-  favorite
+  favorite,
+  id
 }: ProductModelLayout) {
-
+  
   const { heart, heartFilled } = IconNames;
   
   const [icon, setIcon] = useState<typeof heart | typeof heartFilled>(favorite ? 'heart-filled' : 'heart');
-
+  
   const customName = () => {
     let n = name;
     if (layout == "line") return n;
@@ -36,13 +36,12 @@ export default function Product({
     if (n.length > 22) {
       n = n.substring(0, 22).concat(" (...)");
     }
-
+    
     return n;
   };
-
-  const onClickFav = () => {
-    console.log(icon);
-    
+  
+  const onClickFav = async () => {
+    await toggleFavoriteService(id);
     setIcon(icon == 'heart' ? 'heart-filled' : 'heart');
   }
 

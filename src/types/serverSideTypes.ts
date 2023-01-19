@@ -1,6 +1,6 @@
 
 export interface ProductModel {
-  id: string;
+  id: number;
   name: string;
   code: string;
   sales: number;
