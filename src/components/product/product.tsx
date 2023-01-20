@@ -78,9 +78,12 @@ export default function Product({
           <p id="stock" className={classNames(styles["text"], styles["light"])}>
             {stock} und
           </p>
-          <div className={classNames(styles["icon"], styles[icon])}>
-            <Icon name={icon} onClick={onClickFav} />
-          </div>
+          {
+            !location.pathname.includes('favoritos') &&
+            <div className={classNames(styles["icon"], styles[icon])}>
+              <Icon name={icon} onClick={onClickFav} />
+            </div>
+          }
         </div>
       </div>
       {layout === 'line' && <p className={styles.line}></p>}

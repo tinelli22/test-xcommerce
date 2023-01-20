@@ -4,13 +4,14 @@ import styles from "./header.module.css";
 import Image from "next/image";
 import classNames from "classnames";
 import Link from "next/link";
-import { useContext, useEffect, useRef } from "react";
+import { ChangeEvent, useContext, useEffect, useRef } from "react";
 
 import avatar from "../../../public/images/png/avatar.png";
 import ProductForm from "../productForm/productForm";
 import { saveProductService } from "../../services/productService";
 import { store } from "../../store/store";
 import { ProductModel } from "../../types/serverSideTypes";
+import debounce from "../../functions/debouce";
 
 export default function Header() {
   const { dispatch } = useContext(store);
@@ -18,25 +19,6 @@ export default function Header() {
   const messageRef = useRef<HTMLParagraphElement>(null);
   type feedbackStatus = "success" | "error";
 
-  //incomplete
-  const addSelect = (el?: HTMLAnchorElement) => {
-    const path = window.location.pathname;
-    const children = parentLinksRef.current!.children;
-
-    for (let index = 0; index < children.length; index++) {
-      const loopEl = children[index] as HTMLAnchorElement;
-      loopEl.classList.remove("nav-selected");
-
-      if (el) {
-        el.classList.add("nav-selected");
-      } else {
-      }
-    }
-  };
-
-  useEffect(() => {
-    addSelect();
-  }, []);
 
   const onSubmitForm = async (data: ProductModel) => {
     try {
@@ -78,6 +60,12 @@ export default function Header() {
     });
   };
 
+  const timeout = 2000;
+  const onSearch = debounce((ev:  ChangeEvent<HTMLInputElement>) => {
+    const value = (ev.target as HTMLInputElement).value;
+    dispatch({ type: 'SET_SEARCH', payload: value})
+  }, timeout);
+
   return (
     <header className={styles.main}>
       <Container>
@@ -105,6 +93,7 @@ export default function Header() {
               name="search"
               id="search"
               placeholder="Buscar por produto"
+              onChange={onSearch}
             />
           </label>
         </div>
@@ -116,14 +105,12 @@ export default function Header() {
             <Link
               href="/"
               className={styles.button}
-              onClick={(el) => addSelect(el.target as HTMLAnchorElement)}
             >
               Todos
             </Link>
             <Link
               href="/favoritos"
               className={styles.button}
-              onClick={(el) => addSelect(el.target as HTMLAnchorElement)}
             >
               Favoritos
             </Link>

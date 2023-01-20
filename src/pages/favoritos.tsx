@@ -1,8 +1,8 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductsPagination from "../components/productsPagination/productsPagination";
 import { getFavoritesService } from "../services/favoriteService";
-import { getProductsService } from "../services/productService";
+import { store } from "../store/store";
 import {
   ConfigPaginationType,
   PaginationProductApi,
@@ -19,6 +19,9 @@ export default function Favoritos() {
     config: initialConfig,
     data: [],
   });
+
+  const { state: { search } } = useContext(store);
+
 
   const fetchData = async (config: ConfigPaginationType) => {
     try {
@@ -58,6 +61,12 @@ export default function Favoritos() {
     fetchData(initialConfig);
   }, []);
 
+  useEffect(() => {
+    const obj = data;
+    obj.config.search = search;
+    fetchData(obj.config)
+  }, [search]);
+
   return (
     <>
       <Head>
@@ -77,6 +86,7 @@ export default function Favoritos() {
           finalPage={data.config.finalPage!}
           products={data.data}
         />
+         {!data.data.length && <p>Nada encontrado</p>}
       </section>
     </>
   );

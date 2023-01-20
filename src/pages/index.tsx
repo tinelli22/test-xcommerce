@@ -1,7 +1,8 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductsPagination from "../components/productsPagination/productsPagination";
 import { getProductsService } from "../services/productService";
+import { store } from "../store/store";
 import {
   ConfigPaginationType,
   PaginationProductApi,
@@ -18,6 +19,15 @@ export default function Home() {
     config: initialConfig,
     data: [],
   });
+
+  const { state: { search } } = useContext(store);
+  
+  useEffect(() => {
+    const obj = data;
+    obj.config.search = search;
+    fetchData(obj.config)
+  }, [search]);
+  
 
   const fetchData = async (config: ConfigPaginationType) => {
     try {
@@ -76,6 +86,7 @@ export default function Home() {
           finalPage={data.config.finalPage!}
           products={data.data}
         />
+        {!data.data.length && <p>Nada encontrado</p>}
       </section>
     </>
   );
