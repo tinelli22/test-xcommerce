@@ -1,10 +1,11 @@
 import {  useContext, useEffect, useRef } from 'react';
-import { AppContext } from '../../context/context';
+import { store } from '../../store/store';
 
 
 const Modal = () => {
-    const { state: { modal } } = useContext(AppContext);
+    const { state: { modal } } = useContext(store);
     const modalRef = useRef<HTMLDivElement>(null);
+    
 
     useEffect(() => {
         if(modal) {

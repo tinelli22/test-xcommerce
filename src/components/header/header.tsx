@@ -7,71 +7,76 @@ import Link from "next/link";
 import { useContext, useEffect, useRef } from "react";
 
 import avatar from "../../../public/images/png/avatar.png";
-import { AppContext } from "../../context/context";
 import ProductForm from "../productForm/productForm";
-import { ProductModel } from "../product/product";
 import { saveProductService } from "../../services/productService";
+import { store } from "../../store/store";
+import { ProductModel } from "../../types/serverSideTypes";
 
 export default function Header() {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(store);
   const parentLinksRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLParagraphElement>(null);
-  type feedbackStatus = 'success' | 'error';
+  type feedbackStatus = "success" | "error";
 
   //incomplete
   const addSelect = (el?: HTMLAnchorElement) => {
     const path = window.location.pathname;
     const children = parentLinksRef.current!.children;
 
-    
     for (let index = 0; index < children.length; index++) {
       const loopEl = children[index] as HTMLAnchorElement;
       loopEl.classList.remove("nav-selected");
 
-      if(el) { el.classList.add("nav-selected") }
-      else {
-
+      if (el) {
+        el.classList.add("nav-selected");
+      } else {
       }
     }
-  }
+  };
 
-  useEffect(() => { 
-    addSelect()
+  useEffect(() => {
+    addSelect();
   }, []);
 
   const onSubmitForm = async (data: ProductModel) => {
     try {
       const resp = await saveProductService(data);
-      if(!resp) throw Error("Erro no servidor!");
+      if (!resp) throw Error("Erro no servidor!");
 
-      feedback('Cadastrado com sucesso!', 'success')
+      feedback("Cadastrado com sucesso!", "success");
       setTimeout(() => {
-        location.reload()
+        location.reload();
       }, 2000);
     } catch (err) {
       console.error(err);
-      feedback(err as string, 'error');
+      feedback(err as string, "error");
     }
-  }
-  
+  };
+
   const feedback = (msg: string, status: feedbackStatus) => {
-   
     messageRef.current!.classList.add(status);
     messageRef.current!.innerHTML = msg;
-    
+
     setTimeout(() => {
       messageRef.current!.classList.remove(status);
-      messageRef.current!.innerHTML = '';
+      messageRef.current!.innerHTML = "";
     }, 4000);
-  }
+  };
 
   const openCreateModal = () => {
-    dispatch({type: "ADD_CONTENT", payload: { title: 'Novo produto', content: () => <>
-      <ProductForm onSubmit={onSubmitForm}/> 
-     <p ref={messageRef} className="message"></p>
-    </>
-    }})
-  }
+    dispatch({
+      type: "SET_MODAL",
+      payload: {
+        title: "Novo produto",
+        content: () => (
+          <>
+            <ProductForm onSubmit={onSubmitForm} />
+            <p ref={messageRef} className="message"></p>
+          </>
+        ),
+      },
+    });
+  };
 
   return (
     <header className={styles.main}>
@@ -108,14 +113,27 @@ export default function Header() {
       <Container>
         <div className={classNames(styles.row, styles.buttons)}>
           <div ref={parentLinksRef}>
-            <Link href="/" className={styles.button} onClick={el => addSelect((el.target) as HTMLAnchorElement)}>
+            <Link
+              href="/"
+              className={styles.button}
+              onClick={(el) => addSelect(el.target as HTMLAnchorElement)}
+            >
               Todos
             </Link>
-            <Link href="/favoritos" className={styles.button} onClick={el => addSelect((el.target) as HTMLAnchorElement)}>
+            <Link
+              href="/favoritos"
+              className={styles.button}
+              onClick={(el) => addSelect(el.target as HTMLAnchorElement)}
+            >
               Favoritos
             </Link>
           </div>
-          <button className={classNames(styles.button, styles.create)} onClick={openCreateModal}>Criar novo</button>
+          <button
+            className={classNames(styles.button, styles.create)}
+            onClick={openCreateModal}
+          >
+            Criar novo
+          </button>
         </div>
       </Container>
     </header>
